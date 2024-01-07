@@ -1,5 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.member.service;
 
+import com.gdscsolutionchallenge.shareBite.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service

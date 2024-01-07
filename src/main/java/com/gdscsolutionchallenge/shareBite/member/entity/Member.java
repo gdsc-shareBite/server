@@ -1,5 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.member.entity;
 
+import com.gdscsolutionchallenge.shareBite.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
