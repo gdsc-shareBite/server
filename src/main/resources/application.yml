@@ -1,1 +1,12 @@
-
+spring:
+  config:
+    import: application-oauth.yml
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: ${H2_Console_URL}
+    username: ${H2_Console_ID}
+    password: ${H2_Console_PW}
