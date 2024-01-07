@@ -37,3 +37,6 @@ src/main/resources/application-oauth.yml
 
 ### VS Code ###
 .vscode/
+
+### Static Resource ###
+src/main/resources/static/**
