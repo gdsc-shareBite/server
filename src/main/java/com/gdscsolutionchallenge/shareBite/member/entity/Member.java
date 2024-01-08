@@ -1,5 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.member.entity;
 
+import com.gdscsolutionchallenge.shareBite.audit.Auditable;
 import com.gdscsolutionchallenge.shareBite.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Member {
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -24,15 +25,18 @@ public class Member {
     private String email;
 
     @Column
-    private String picture;
+    private String profileImage;
+
+    @Column
+    private String address;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
 
-    public Member update(String name, String picture) {
+    public Member update(String name, String profileImage) {
         this.name = name;
-        this.picture = picture;
+        this.profileImage = profileImage;
 
         return this;
     }
