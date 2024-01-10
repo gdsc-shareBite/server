@@ -2,6 +2,7 @@ package com.gdscsolutionchallenge.shareBite.member.entity;
 
 import com.gdscsolutionchallenge.shareBite.audit.Auditable;
 import com.gdscsolutionchallenge.shareBite.role.Role;
+import com.gdscsolutionchallenge.shareBite.store.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,9 @@ public class Member extends Auditable {
 
     @Column
     private String address;
+
+    @OneToOne(mappedBy = "member", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private Store store;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
