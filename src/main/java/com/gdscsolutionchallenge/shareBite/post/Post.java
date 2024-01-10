@@ -1,13 +1,21 @@
 package com.gdscsolutionchallenge.shareBite.post;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.gdscsolutionchallenge.shareBite.audit.Auditable;
+import com.gdscsolutionchallenge.shareBite.postFoodCategory.PostFoodCategory;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Post {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Post extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -33,7 +41,7 @@ public class Post {
     @Column
     private Integer foodQuantity;
 
-    @Column
-    private String foodCategory;
+    @OneToMany(mappedBy = "post", cascade={CascadeType.ALL})
+    private List<PostFoodCategory> postFoodCategories = new ArrayList<>();
 
 }
