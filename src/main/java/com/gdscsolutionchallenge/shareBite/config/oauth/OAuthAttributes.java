@@ -1,7 +1,7 @@
 package com.gdscsolutionchallenge.shareBite.config.oauth;
 
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
-import com.gdscsolutionchallenge.shareBite.role.Role;
+import com.gdscsolutionchallenge.shareBite.member.state.Role;
 import lombok.Builder;
 import lombok.Getter;
 

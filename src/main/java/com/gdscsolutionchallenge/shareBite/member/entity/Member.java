@@ -2,7 +2,8 @@ package com.gdscsolutionchallenge.shareBite.member.entity;
 
 import com.gdscsolutionchallenge.shareBite.audit.Auditable;
 import com.gdscsolutionchallenge.shareBite.blacklist.entity.Blacklist;
-import com.gdscsolutionchallenge.shareBite.role.Role;
+import com.gdscsolutionchallenge.shareBite.order.entity.Order;
+import com.gdscsolutionchallenge.shareBite.member.state.Role;
 import com.gdscsolutionchallenge.shareBite.store.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,14 +36,26 @@ public class Member extends Auditable {
     @Column
     private String address;
 
+    /*
+    * todo: cascade 추후 수정할 것
+    * */
     @OneToOne(mappedBy = "member", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Store store;
 
+    /*
+     * todo: cascade 추후 수정할 것
+     * */
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Blacklist> blacklist = new ArrayList<>();
 
+    /*
+     * todo: cascade 추후 수정할 것
+     * */
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<Order> orders = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column
     private Role role;
 
     public Member update(String name, String profileImage) {
@@ -56,4 +69,7 @@ public class Member extends Auditable {
         return role.getRole();
     }
 
+    public void setStore(Store store) {
+        this.store = store;
+    }
 }
