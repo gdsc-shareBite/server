@@ -1,7 +1,7 @@
-package com.gdscsolutionchallenge.shareBite.foodCategory;
+package com.gdscsolutionchallenge.shareBite.tag.entity;
 
 import com.gdscsolutionchallenge.shareBite.audit.Auditable;
-import com.gdscsolutionchallenge.shareBite.postFoodCategory.PostFoodCategory;
+import com.gdscsolutionchallenge.shareBite.postTag.entity.PostTag;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +15,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class FoodCategory extends Auditable {
+@Entity(name = "TAGS")
+public class Tag extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long foodCategoryId;
@@ -25,5 +25,5 @@ public class FoodCategory extends Auditable {
     String name;
 
     @OneToMany(mappedBy = "foodCategory", cascade={CascadeType.ALL})
-    private List<PostFoodCategory> postFoodCategories = new ArrayList<>();
+    private List<PostTag> postFoodCategories = new ArrayList<>();
 }
