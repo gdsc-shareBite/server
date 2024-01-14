@@ -1,7 +1,7 @@
 package com.gdscsolutionchallenge.shareBite.config;
 
 import com.gdscsolutionchallenge.shareBite.config.oauth.CustomOAuth2UserService;
-import com.gdscsolutionchallenge.shareBite.role.Role;
+import com.gdscsolutionchallenge.shareBite.member.state.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

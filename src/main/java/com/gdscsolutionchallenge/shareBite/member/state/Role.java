@@ -1,4 +1,4 @@
-package com.gdscsolutionchallenge.shareBite.role;
+package com.gdscsolutionchallenge.shareBite.member.state;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
