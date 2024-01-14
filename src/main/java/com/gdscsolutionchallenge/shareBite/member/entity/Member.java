@@ -1,6 +1,7 @@
 package com.gdscsolutionchallenge.shareBite.member.entity;
 
 import com.gdscsolutionchallenge.shareBite.audit.Auditable;
+import com.gdscsolutionchallenge.shareBite.blacklist.entity.Blacklist;
 import com.gdscsolutionchallenge.shareBite.role.Role;
 import com.gdscsolutionchallenge.shareBite.store.Store;
 import jakarta.persistence.*;
@@ -9,20 +10,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "MEMBERS")
 public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name =  "name")
+    @Column
     private String name;
 
-    @Column(name = "email")
+    @Column
     private String email;
 
     @Column
@@ -33,6 +37,9 @@ public class Member extends Auditable {
 
     @OneToOne(mappedBy = "member", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Store store;
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<Blacklist> blacklist = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
