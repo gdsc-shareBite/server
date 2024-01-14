@@ -19,11 +19,11 @@ import java.util.List;
 public class Tag extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long foodCategoryId;
+    private Long tagId;
 
     @Column
     String name;
 
-    @OneToMany(mappedBy = "foodCategory", cascade={CascadeType.ALL})
-    private List<PostTag> postFoodCategories = new ArrayList<>();
+    @OneToMany(mappedBy = "tag", cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<PostTag> postTags = new ArrayList<>();
 }
