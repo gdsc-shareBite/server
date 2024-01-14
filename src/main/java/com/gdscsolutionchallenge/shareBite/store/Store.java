@@ -3,6 +3,7 @@ package com.gdscsolutionchallenge.shareBite.store;
 import com.gdscsolutionchallenge.shareBite.audit.Auditable;
 import com.gdscsolutionchallenge.shareBite.blacklist.entity.Blacklist;
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
+import com.gdscsolutionchallenge.shareBite.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +37,21 @@ public class Store extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    /*
+     * todo: cascade 추후 수정할 것
+     * */
     @OneToMany(mappedBy = "store", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Blacklist> blacklist = new ArrayList<>();
+
+    /*
+     * todo: cascade 추후 수정할 것
+     * */
+    @OneToMany(mappedBy = "store", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.setStore(this);
+    }
 
 }
