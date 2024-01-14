@@ -23,4 +23,14 @@ public class PostTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FOOD_CATEGORY_ID")
     private Tag tag;
+
+    public void setPost(Post post) {
+        this.post = post;
+        post.getPostTags().add(this);
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
+        tag.getPostTags().add(this);
+    }
 }
