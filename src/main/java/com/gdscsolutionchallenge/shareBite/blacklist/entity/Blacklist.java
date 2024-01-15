@@ -1,6 +1,7 @@
 package com.gdscsolutionchallenge.shareBite.blacklist.entity;
 
 import com.gdscsolutionchallenge.shareBite.audit.Auditable;
+import com.gdscsolutionchallenge.shareBite.audit.CreationInfo;
 import com.gdscsolutionchallenge.shareBite.blacklist.state.BlacklistCategory;
 import com.gdscsolutionchallenge.shareBite.blacklist.state.BlacklistStatus;
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "BLACKLIST")
-public class Blacklist extends Auditable {
+public class Blacklist extends CreationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long blacklistId;
