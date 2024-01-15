@@ -1,6 +1,5 @@
 package com.gdscsolutionchallenge.shareBite.blacklist.entity;
 
-import com.gdscsolutionchallenge.shareBite.audit.Auditable;
 import com.gdscsolutionchallenge.shareBite.audit.CreationInfo;
 import com.gdscsolutionchallenge.shareBite.blacklist.state.BlacklistCategory;
 import com.gdscsolutionchallenge.shareBite.blacklist.state.BlacklistStatus;

@@ -1,6 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.order.entity;
 
-import com.gdscsolutionchallenge.shareBite.audit.Auditable;
+import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
 import com.gdscsolutionchallenge.shareBite.order.state.OrderStatus;
 import com.gdscsolutionchallenge.shareBite.post.entity.Post;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "ORDERS")
-public class Order extends Auditable {
+public class Order extends ModificationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;

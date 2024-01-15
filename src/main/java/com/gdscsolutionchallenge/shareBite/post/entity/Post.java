@@ -1,6 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.post.entity;
 
-import com.gdscsolutionchallenge.shareBite.audit.CreationInfo;
+import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.order.entity.Order;
 import com.gdscsolutionchallenge.shareBite.post.state.PostStatus;
 import com.gdscsolutionchallenge.shareBite.postTag.entity.PostTag;
@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "POSTS")
-public class Post extends CreationInfo {
+public class Post extends ModificationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
