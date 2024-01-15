@@ -1,6 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.member.entity;
 
-import com.gdscsolutionchallenge.shareBite.audit.Auditable;
+import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.blacklist.entity.Blacklist;
 import com.gdscsolutionchallenge.shareBite.order.entity.Order;
 import com.gdscsolutionchallenge.shareBite.member.state.Role;
@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "MEMBERS")
-public class Member extends Auditable {
+public class Member extends ModificationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;

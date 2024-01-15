@@ -1,6 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.store;
 
-import com.gdscsolutionchallenge.shareBite.audit.Auditable;
+import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.blacklist.entity.Blacklist;
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
 import com.gdscsolutionchallenge.shareBite.post.entity.Post;
@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "STORES")
-public class Store extends Auditable {
+public class Store extends ModificationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeId;

@@ -1,6 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.tag.entity;
 
-import com.gdscsolutionchallenge.shareBite.audit.Auditable;
+import com.gdscsolutionchallenge.shareBite.audit.CreationInfo;
 import com.gdscsolutionchallenge.shareBite.postTag.entity.PostTag;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "TAGS")
-public class Tag extends Auditable {
+public class Tag extends CreationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tagId;
