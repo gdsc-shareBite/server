@@ -4,12 +4,12 @@ import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.order.entity.Order;
 import com.gdscsolutionchallenge.shareBite.post.state.PostStatus;
 import com.gdscsolutionchallenge.shareBite.postTag.entity.PostTag;
-import com.gdscsolutionchallenge.shareBite.store.Store;
-import jakarta.persistence.*;
+import com.gdscsolutionchallenge.shareBite.store.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 @Entity(name = "POSTS")
 public class Post extends ModificationInfo {
+    @Column(name = "POST_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id;
 
     @Column
     private String title;
