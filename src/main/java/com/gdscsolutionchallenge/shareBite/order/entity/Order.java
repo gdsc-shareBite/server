@@ -4,16 +4,18 @@ import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
 import com.gdscsolutionchallenge.shareBite.order.state.OrderStatus;
 import com.gdscsolutionchallenge.shareBite.post.entity.Post;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "ORDERS")
 public class Order extends ModificationInfo {
+    @Column(name = "ORDER_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;

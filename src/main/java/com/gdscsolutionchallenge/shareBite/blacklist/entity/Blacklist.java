@@ -4,20 +4,22 @@ import com.gdscsolutionchallenge.shareBite.audit.CreationInfo;
 import com.gdscsolutionchallenge.shareBite.blacklist.state.BlacklistCategory;
 import com.gdscsolutionchallenge.shareBite.blacklist.state.BlacklistStatus;
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
-import com.gdscsolutionchallenge.shareBite.store.Store;
-import jakarta.persistence.*;
+import com.gdscsolutionchallenge.shareBite.store.entity.Store;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "BLACKLIST")
 public class Blacklist extends CreationInfo {
+    @Column(name = "BLACKLIST_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long blacklistId;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="MEMBER_ID")

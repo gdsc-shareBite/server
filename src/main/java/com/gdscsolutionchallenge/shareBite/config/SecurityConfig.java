@@ -1,54 +1,49 @@
 package com.gdscsolutionchallenge.shareBite.config;
 
-import com.gdscsolutionchallenge.shareBite.config.oauth.CustomOAuth2UserService;
-import com.gdscsolutionchallenge.shareBite.member.state.Role;
+import com.gdscsolutionchallenge.shareBite.config.jwt.JwtConfig;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @RequiredArgsConstructor
-@EnableWebSecurity
+@EnableWebSecurity(debug = false)
 @Configuration
 public class SecurityConfig {
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final JwtConfig jwtConfig;
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-
-                .headers((headers) -> headers
-                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
-                )
-
-                .sessionManagement((sessionManagement) -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-
-                .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                        .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .requestMatchers("/", "/loginPage.html").permitAll()
-                        .requestMatchers("/api/v1/**").hasRole(Role.MEMBER.getRole())
-                        .anyRequest().authenticated()
-                )
-
-                .oauth2Login((oauth2) -> oauth2
-                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService)
-                        )
-                        .defaultSuccessUrl("/loginPage.html")
-                )
-
-                .logout((logout) -> logout
-                        .logoutSuccessUrl("/")
-                );
+                .httpBasic().disable()
+                .headers().frameOptions().sameOrigin() // h2
+                .and()
+                .cors().and()
+                .csrf().disable()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .authorizeRequests()
+                    .antMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/v1/members", "/api/v1/auth/login").permitAll()
+                    .antMatchers("/api/v1/members/black-list").hasAuthority("ROLE_ADMIN")
+                    .anyRequest().authenticated()
+                .and()
+                    .apply(jwtConfig)
+                .and()
+                    .logout()
+                        .logoutSuccessUrl("/");
 
         return http.build();
     }

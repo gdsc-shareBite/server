@@ -4,25 +4,24 @@ import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.blacklist.entity.Blacklist;
 import com.gdscsolutionchallenge.shareBite.order.entity.Order;
 import com.gdscsolutionchallenge.shareBite.member.state.Role;
-import com.gdscsolutionchallenge.shareBite.store.Store;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.gdscsolutionchallenge.shareBite.store.entity.Store;
+import lombok.*;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity(name = "MEMBERS")
+@NoArgsConstructor
 public class Member extends ModificationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @Column(name = "MEMBER_ID")
+    private Long id;
+
+    @Column
+    private String password;
 
     @Column
     private String name;
@@ -31,7 +30,10 @@ public class Member extends ModificationInfo {
     private String email;
 
     @Column
-    private String profileImage;
+    private String profileImageUrl;
+
+    @Column
+    private String country;
 
     @Column
     private String address;
@@ -58,18 +60,27 @@ public class Member extends ModificationInfo {
     @Column
     private Role role;
 
-    public Member update(String name, String profileImage) {
-        this.name = name;
-        this.profileImage = profileImage;
-
-        return this;
-    }
-
-    public String getRole() {
-        return role.getRole();
-    }
-
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    @Builder
+    public Member(String password, String name, String email, String profileImageUrl, String country, String address, Role role) {
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.profileImageUrl = profileImageUrl;
+        this.country = country;
+        this.address = address;
+        this.role = role;
+    }
+
+    public void update(String password, String name, String email, String profileImageUrl, String country, String address) {
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.profileImageUrl = profileImageUrl;
+        this.country = country;
+        this.address = address;
     }
 }
