@@ -18,7 +18,7 @@ public class Member extends ModificationInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MEMBER_ID")
-    private Long id;
+    private Long memberId;
 
     @Column
     private String password;
