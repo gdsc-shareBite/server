@@ -38,3 +38,6 @@ src/main/resources/application-security.yml
 
 ### VS Code ###
 .vscode/
+
+### Static Resource ###
+src/main/resources/static/**

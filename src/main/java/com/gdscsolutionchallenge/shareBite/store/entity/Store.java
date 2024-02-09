@@ -1,14 +1,14 @@
-package com.gdscsolutionchallenge.shareBite.store;
+package com.gdscsolutionchallenge.shareBite.store.entity;
 
-import com.gdscsolutionchallenge.shareBite.audit.Auditable;
+import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.blacklist.entity.Blacklist;
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
 import com.gdscsolutionchallenge.shareBite.post.entity.Post;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "STORES")
-public class Store extends Auditable {
+public class Store extends ModificationInfo {
+    @Column(name = "STORE_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long storeId;
+    private Long id;
 
     @Column
     private String name;
