@@ -1,16 +1,17 @@
-FROM adoptopenjdk/openjdk1
+FROM azul/zulu-openjdk:17
 
-COPY gradlew .
-COPY gradle gradle
+WORKDIR /app
+
 COPY build.gradle .
-COPY settings.gradle .
-COPY src src
-RUN chmod +x ./gradlew
-RUN ./gradlew build --exclude-task test
+COPY gradle ./gradle
+RUN ./gradlew dependencies
 
-RUN cp ./build/libs/*.jar ./app.jar
+COPY src ./src
+
+RUN ./gradlew build
+
+RUN cp ./build/libs/*.jar /app/app.jar
 
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod" ,"app.jar"]
 
-# trigger build test1
+CMD ["java", "-jar", "/app/app.jar", "-Dspring.profiles.active=prod"]
