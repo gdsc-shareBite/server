@@ -1,20 +1,14 @@
-FROM azul/zulu-openjdk:17
+FROM adoptopenjdk/openjdk11
 
-RUN apt-get update && \
-    apt-get install -y gradle
-
-WORKDIR /app
-
+COPY gradlew .
+COPY gradle gradle
 COPY build.gradle .
-COPY gradle ./gradle
-RUN ./gradlew dependencies
+COPY settings.gradle .
+COPY src src
+RUN chmod +x ./gradlew
+RUN ./gradlew build --exclude-task test
 
-COPY src ./src
-
-RUN ./gradlew build
-
-RUN cp ./build/libs/*.jar /app/app.jar
+RUN cp ./build/libs/*.jar ./app.jar
 
 EXPOSE 8081
-
-CMD ["java", "-jar", "/app/app.jar", "-Dspring.profiles.active=prod"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod" ,"app.jar"]
