@@ -15,5 +15,3 @@ RUN cp ./build/libs/*.jar /app/app.jar
 EXPOSE 8081
 
 CMD ["java", "-jar", "/app/app.jar", "-Dspring.profiles.active=prod"]
-
-# build test
