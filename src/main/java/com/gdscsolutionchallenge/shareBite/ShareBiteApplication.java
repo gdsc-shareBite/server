@@ -13,5 +13,3 @@ public class ShareBiteApplication {
 	}
 
 }
-
-// push test1
