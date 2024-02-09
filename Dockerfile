@@ -1,5 +1,8 @@
 FROM azul/zulu-openjdk:17
 
+RUN apt-get update && \
+    apt-get install -y gradle
+
 WORKDIR /app
 
 COPY build.gradle .
