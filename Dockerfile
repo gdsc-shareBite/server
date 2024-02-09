@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk17
+FROM adoptopenjdk/openjdk1
 
 COPY gradlew .
 COPY gradle gradle
@@ -12,3 +12,5 @@ RUN cp ./build/libs/*.jar ./app.jar
 
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod" ,"app.jar"]
+
+# trigger build test1
