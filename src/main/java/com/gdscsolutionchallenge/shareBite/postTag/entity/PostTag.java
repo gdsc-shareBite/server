@@ -16,7 +16,7 @@ public class PostTag {
     @Column(name = "POST_TAG_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postTagId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_ID")
