@@ -6,6 +6,7 @@ import com.gdscsolutionchallenge.shareBite.post.state.PostStatus;
 import com.gdscsolutionchallenge.shareBite.postTag.entity.PostTag;
 import com.gdscsolutionchallenge.shareBite.store.entity.Store;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,7 @@ public class Post extends ModificationInfo {
     @Column(name = "POST_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postId;
 
     @Column
     private String title;
@@ -31,19 +32,19 @@ public class Post extends ModificationInfo {
     private String description;
 
     @Column
+    private Integer foodQuantity;
+
+    @Column
     private LocalDateTime foodPurchaseDate;
 
     @Column
     private LocalDateTime foodCookingDate;
 
     @Column
-    private LocalDateTime foodExpirationData;
+    private LocalDateTime foodExpirationDate;
 
     @Column
     private LocalDateTime foodBestBeforeDate;
-
-    @Column
-    private Integer foodQuantity;
 
     @Enumerated(EnumType.STRING)
     private PostStatus postStatus = PostStatus.SHARING;
@@ -67,6 +68,29 @@ public class Post extends ModificationInfo {
     public void setStore(Store store) {
         this.store = store;
         store.getPosts().add(this);
+    }
+
+    @Builder
+    public Post(String title, String description, Integer foodQuantity, LocalDateTime foodPurchaseDate, LocalDateTime foodCookingDate, LocalDateTime foodExpirationDate, LocalDateTime foodBestBeforeDate) {
+        this.title = title;
+        this.description = description;
+        this.foodQuantity = foodQuantity;
+        this.foodPurchaseDate = foodPurchaseDate;
+        this.foodCookingDate = foodCookingDate;
+        this.foodExpirationDate = foodExpirationDate;
+        this.foodBestBeforeDate = foodBestBeforeDate;
+        this.postStatus = PostStatus.SHARING;
+    }
+
+    public void update(String title, String description, Integer foodQuantity, LocalDateTime foodPurchaseDate, LocalDateTime foodCookingDate, LocalDateTime foodExpirationDate, LocalDateTime foodBestBeforeDate) {
+        this.title = title;
+        this.description = description;
+        this.foodQuantity = foodQuantity;
+        this.foodPurchaseDate = foodPurchaseDate;
+        this.foodCookingDate = foodCookingDate;
+        this.foodExpirationDate = foodExpirationDate;
+        this.foodBestBeforeDate = foodBestBeforeDate;
+        this.postStatus = PostStatus.SHARING;
     }
 
 }
