@@ -4,6 +4,9 @@ FROM openjdk:17 AS builder
 WORKDIR /workspace
 COPY . .
 
+# Gradle Wrapper 스크립트에 실행 권한 부여
+RUN chmod +x ./gradlew
+
 # Gradle을 사용하여 애플리케이션 빌드
 RUN ./gradlew build
 
