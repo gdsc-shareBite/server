@@ -1,6 +1,8 @@
 package com.gdscsolutionchallenge.shareBite.config;
 
 import com.gdscsolutionchallenge.shareBite.config.jwt.JwtConfig;
+import com.google.api.services.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
