@@ -76,6 +76,7 @@ public class MemberService {
         gcsService.updateImages(ImageType.PROFILE_IMAGE, imageFiles, String.valueOf(member.getMemberId()));
     }
 
+    @Transactional
     public void updateMemberRole(Long memberId, Role role) {
         Member member = verifyMember(memberId);
         member.update(role);
