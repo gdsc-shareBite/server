@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class MemberController {
 
     @PatchMapping("/{memberId}/roles")
     public ResponseEntity<?> updateMemberRole(@PathVariable Long memberId,
-                                              @RequestBody UpdateMemberRoleDto updateMemberRoleDto) {
+                                              @RequestBody @Valid UpdateMemberRoleDto updateMemberRoleDto) {
         memberService.updateMemberRole(memberId, updateMemberRoleDto.getRole());
 
         return new ResponseEntity<> (HttpStatus.OK);
