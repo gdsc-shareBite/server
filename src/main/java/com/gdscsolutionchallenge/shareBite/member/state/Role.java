@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Role {
     MEMBER,
+    STORE_OWNER,
     ADMIN;
 
     public static Role findRole(String targetRole) {
