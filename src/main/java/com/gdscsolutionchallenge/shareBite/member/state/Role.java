@@ -1,5 +1,8 @@
 package com.gdscsolutionchallenge.shareBite.member.state;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.gdscsolutionchallenge.shareBite.exception.code.ErrorCode;
+import com.gdscsolutionchallenge.shareBite.exception.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,11 +13,12 @@ public enum Role {
     STORE_OWNER,
     ADMIN;
 
+    @JsonCreator
     public static Role findRole(String targetRole) {
         for(Role role : values()) {
             if(role.name().equals(targetRole)) return role;
         }
 
-        return null; // todo exception 던지도록 변경하던가 방법을 구상할 것
+        throw new ResourceNotFoundException(ErrorCode.NOT_FOUND_ROLE);
     }
 }
