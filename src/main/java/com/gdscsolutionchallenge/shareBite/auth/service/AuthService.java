@@ -30,14 +30,15 @@ public class AuthService {
     public TokensDto login(LoginDto loginDto) {
         Optional<Member> optionalMember = memberRepository.findByName(loginDto.getName());
         Member member = verifyMember(optionalMember);
-        String memberName = member.getName();
 
         if(!passwordEncoder.matches(loginDto.getPassword(), member.getPassword())) {
             // 비밀번호 잘못 입력
         }
 
+        String memberId = String.valueOf(member.getMemberId());
+
         UserDetails userDetails = User.builder()
-                .username(member.getName())
+                .username(memberId)
                 .password(member.getPassword())
                 .authorities(member.getRole().toString())
                 .build();
@@ -46,42 +47,47 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
-        String accessToken = tokenProvider.createAccessToken(memberName, member.getRole().name());
-        String refreshToken = tokenProvider.createRefreshToken(memberName);
+        String accessToken = tokenProvider.createAccessToken(memberId, member.getRole().name());
+        String refreshToken = tokenProvider.createRefreshToken(memberId);
 
-        redisService.saveRefreshToken(memberName, refreshToken, tokenProvider.getRTK_EXPIRATION());
+        redisService.saveRefreshToken(memberId, refreshToken, tokenProvider.getRTK_EXPIRATION());
+        redisService.deleteAccessToken(memberId);
 
         return new TokensDto(accessToken, refreshToken);
     }
 
-    public void logout(TokensDto tokensDto) {
-        String refreshToken = tokensDto.getRefreshToken();
-        redisService.deleteRefreshToken(refreshToken);
-
-        String accessToken = tokensDto.getAccessToken();
-        String memberName = tokenProvider.getAuthentication(accessToken).getName();
+    public void logout(String accessToken) {
+        String memberId = tokenProvider.getAuthentication(accessToken).getName();
         Long expiration = tokenProvider.getRemainExpiration(accessToken);
-        redisService.saveAccessToken(memberName, accessToken, expiration);
+        redisService.saveAccessToken(memberId, accessToken, expiration);
+
+        redisService.deleteRefreshToken(memberId);
     }
 
     public TokensDto tokenReissue(String oldRefreshToken) {
         Authentication authentication = tokenProvider.getAuthentication(oldRefreshToken);
-        String memberName = authentication.getName();
-        Member member = verifyMember(memberRepository.findByName(memberName));
+        String memberId = authentication.getName();
+        Member member = verifyMember(Long.parseLong(memberId));
 
-        String accessToken = tokenProvider.createAccessToken(memberName, member.getRole().name());
-        String newRefreshToken = tokenProvider.createRefreshToken(memberName);
-        redisService.saveRefreshToken(memberName, newRefreshToken, tokenProvider.getRTK_EXPIRATION());
+        String accessToken = tokenProvider.createAccessToken(memberId, member.getRole().name());
+        String newRefreshToken = tokenProvider.createRefreshToken(memberId);
+        redisService.saveRefreshToken(memberId, newRefreshToken, tokenProvider.getRTK_EXPIRATION());
 
         return new TokensDto(accessToken, newRefreshToken);
     }
 
-//    public void setBlackList(String memberName) {
-//        redisService.deleteRefreshToken(memberName);
-//    }
+    public void setBlackList(Long memberId) {
+        verifyMember(memberId);
+
+        redisService.deleteRefreshToken(String.valueOf(memberId));
+    }
 
     private Member verifyMember(Optional<Member> optionalMember) {
         return optionalMember.orElseThrow(() -> new RuntimeException());
+    }
+
+    private Member verifyMember(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException());
     }
 
 }
