@@ -4,7 +4,9 @@ import com.gdscsolutionchallenge.shareBite.audit.ModificationInfo;
 import com.gdscsolutionchallenge.shareBite.blacklist.entity.Blacklist;
 import com.gdscsolutionchallenge.shareBite.member.entity.Member;
 import com.gdscsolutionchallenge.shareBite.post.entity.Post;
+import com.gdscsolutionchallenge.shareBite.store.state.RegistrationStatus;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +22,7 @@ public class Store extends ModificationInfo {
     @Column(name = "STORE_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long storeId;
 
     @Column
     private String name;
@@ -33,6 +35,10 @@ public class Store extends ModificationInfo {
 
     @Column
     private Integer dislikeCount;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private RegistrationStatus registrationStatus;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -53,6 +59,28 @@ public class Store extends ModificationInfo {
     public void setMember(Member member) {
         this.member = member;
         member.setStore(this);
+    }
+
+    @Builder
+    public Store(String name, String address, Member member) {
+        this.name = name;
+        this.address = address;
+        this.likeCount = 0;
+        this.dislikeCount = 0;
+        this.registrationStatus = RegistrationStatus.PENDING_APPROVAL;
+        setMember(member);
+    }
+
+    public void update(String name, String address, Integer likeCount, Integer dislikeCount, RegistrationStatus registrationStatus) {
+        this.name = name;
+        this.address = address;
+        this.likeCount = likeCount;
+        this.dislikeCount = dislikeCount;
+        this.registrationStatus = registrationStatus;
+    }
+
+    public void update(RegistrationStatus registrationStatus) {
+        this.registrationStatus = registrationStatus;
     }
 
 }
