@@ -58,6 +58,7 @@ public class Member extends ModificationInfo {
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column
     private Role role;
@@ -85,6 +86,6 @@ public class Member extends ModificationInfo {
     }
 
     public void update(Role role) {
-        this.role = role;
+        setRole(role);
     }
 }
