@@ -1,12 +1,11 @@
 package com.gdscsolutionchallenge.shareBite.post.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -17,11 +16,20 @@ public class CreatePostDto {
     private String title;
     private String description;
     private Integer foodQuantity;
-    private LocalDateTime foodPurchaseDate;
-    private LocalDateTime foodCookingDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime foodExpirationDate;
-    private LocalDateTime foodBestBeforeDate;
-    private MultipartFile[] imageFiles;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    private LocalDateTime foodManufacturingDate;
     private List<String> tags;
+
+    @Builder
+    public CreatePostDto(String title, String description, Integer foodQuantity, String foodExpirationDate, String foodManufacturingDate, List<String> tags) {
+        this.title = title;
+        this.description = description;
+        this.foodQuantity = foodQuantity;
+        this.foodExpirationDate = LocalDate.parse(foodExpirationDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay();
+        this.foodManufacturingDate = LocalDate.parse(foodManufacturingDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay();
+        this.tags = tags;
+    }
 
 }
