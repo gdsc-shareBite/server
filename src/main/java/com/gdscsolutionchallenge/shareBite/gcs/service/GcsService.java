@@ -9,6 +9,7 @@ import com.google.api.gax.paging.Page;
 import com.google.cloud.storage.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,8 +21,8 @@ import java.util.List;
 public class GcsService {
     @Autowired
     private Storage storage;
-//    @Value("${spring.cloud.gcp.bucket}") todo: vm에서 정상적으로 값을 주입해주고 있지 못함
-    private String BUCKET_NAME = "share-bite-image-buket";
+    @Value("${spring.cloud.gcp.bucket}")
+    private String BUCKET_NAME;
     private final String GCS_IMAGE_PATH = "https://storage.googleapis.com/";
     private final String GCS_PROFILE_IMAGE_FOLDER = "profile-images/";
     private final String GCS_POST_IMAGE_FOLDER = "post-images/";
@@ -86,7 +87,7 @@ public class GcsService {
         String folderName = getFolderName(imageType);
 
         try {
-            Page<Blob> blobs = storage.list(BUCKET_NAME, Storage.BlobListOption.prefix(folderName + "_" + imageId + "_"));
+            Page<Blob> blobs = storage.list(BUCKET_NAME, Storage.BlobListOption.prefix(folderName + imageId + "_"));
 
             for(Blob blob : blobs.iterateAll()) {
                 BlobId blobId = blob.getBlobId();
