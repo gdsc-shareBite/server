@@ -80,7 +80,7 @@ public class StoreService {
         storeRepository.delete(store);
     }
 
-    private Store findStoreByMemberId(Long memberId) {
+    public Store findStoreByMemberId(Long memberId) {
         Member member = memberService.verifyMember(memberId);
         Long storeId = member.getStore().getStoreId();
         return storeRepository.findById(storeId).orElseThrow(() -> new ResourceNotFoundException(ErrorCode.NOT_FOUND_STORE));
