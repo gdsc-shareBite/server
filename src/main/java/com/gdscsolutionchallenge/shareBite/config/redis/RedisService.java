@@ -36,4 +36,8 @@ public class RedisService {
     public void deleteRefreshToken(String key) {
         redisTemplate.delete("RTK:" + key);
     }
+
+    public void deleteAccessToken(String key) {
+        redisTemplate.delete("ATK:" + key);
+    }
 }
