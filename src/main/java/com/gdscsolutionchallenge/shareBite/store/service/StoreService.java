@@ -34,8 +34,9 @@ public class StoreService {
         Store store = Store.builder()
                 .name(createStoreDto.getName())
                 .address(createStoreDto.getAddress())
-                .member(member)
                 .build();
+
+        store.setMember(member);
 
         Long storeId = storeRepository.save(store).getStoreId();
 

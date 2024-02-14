@@ -62,13 +62,12 @@ public class Store extends ModificationInfo {
     }
 
     @Builder
-    public Store(String name, String address, Member member) {
+    public Store(String name, String address) {
         this.name = name;
         this.address = address;
         this.likeCount = 0;
         this.dislikeCount = 0;
         this.registrationStatus = RegistrationStatus.PENDING_APPROVAL;
-        setMember(member);
     }
 
     public void update(String name, String address, Integer likeCount, Integer dislikeCount, RegistrationStatus registrationStatus) {
