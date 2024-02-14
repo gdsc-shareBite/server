@@ -10,28 +10,26 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class FindPostResponseDto {
+    private Long postId;
     private String title;
     private String description;
     private Integer foodQuantity;
-    private LocalDateTime foodPurchaseDate;
-    private LocalDateTime foodCookingDate;
     private LocalDateTime foodExpirationData;
-    private LocalDateTime foodBestBeforeDate;
+    private LocalDateTime foodManufacturingDate;
     private PostStatus postStatus;
     private List<String> imageUrls;
     private List<String> tags;
 
     @Builder
-    public FindPostResponseDto(String title, String description, Integer foodQuantity,
-                               LocalDateTime foodPurchaseDate, LocalDateTime foodCookingDate, LocalDateTime foodExpirationDate, LocalDateTime foodBestBeforeDate,
+    public FindPostResponseDto(Long postId, String title, String description, Integer foodQuantity,
+                               LocalDateTime foodExpirationDate, LocalDateTime foodManufacturingDate,
                                PostStatus postStatus, List<String> imageUrls, List<String> tags) {
+        this.postId = postId;
         this.title = title;
         this.description = description;
         this.foodQuantity = foodQuantity;
-        this.foodPurchaseDate = foodPurchaseDate;
-        this.foodCookingDate = foodCookingDate;
         this.foodExpirationData = foodExpirationDate;
-        this.foodBestBeforeDate = foodBestBeforeDate;
+        this.foodManufacturingDate = foodManufacturingDate;
         this.postStatus = postStatus;
         this.imageUrls = imageUrls;
         this.tags = tags;
