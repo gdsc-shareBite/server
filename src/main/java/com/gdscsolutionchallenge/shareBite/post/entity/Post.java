@@ -35,16 +35,10 @@ public class Post extends ModificationInfo {
     private Integer foodQuantity;
 
     @Column
-    private LocalDateTime foodPurchaseDate;
-
-    @Column
-    private LocalDateTime foodCookingDate;
-
-    @Column
     private LocalDateTime foodExpirationDate;
 
     @Column
-    private LocalDateTime foodBestBeforeDate;
+    private LocalDateTime foodManufacturingDate;
 
     @Enumerated(EnumType.STRING)
     private PostStatus postStatus = PostStatus.SHARING;
@@ -59,9 +53,6 @@ public class Post extends ModificationInfo {
     @OneToMany(mappedBy = "post", cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
 
-    /*
-     * todo: cascade 추후 수정할 것
-     * */
     @OneToMany(mappedBy = "post", cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<PostTag> postTags = new ArrayList<>();
 
@@ -71,26 +62,22 @@ public class Post extends ModificationInfo {
     }
 
     @Builder
-    public Post(String title, String description, Integer foodQuantity, LocalDateTime foodPurchaseDate, LocalDateTime foodCookingDate, LocalDateTime foodExpirationDate, LocalDateTime foodBestBeforeDate) {
+    public Post(String title, String description, Integer foodQuantity, LocalDateTime foodExpirationDate, LocalDateTime foodManufacturingDate) {
         this.title = title;
         this.description = description;
         this.foodQuantity = foodQuantity;
-        this.foodPurchaseDate = foodPurchaseDate;
-        this.foodCookingDate = foodCookingDate;
         this.foodExpirationDate = foodExpirationDate;
-        this.foodBestBeforeDate = foodBestBeforeDate;
+        this.foodManufacturingDate = foodManufacturingDate;
         this.postStatus = PostStatus.SHARING;
     }
 
-    public void update(String title, String description, Integer foodQuantity, LocalDateTime foodPurchaseDate, LocalDateTime foodCookingDate, LocalDateTime foodExpirationDate, LocalDateTime foodBestBeforeDate) {
+    public void update(String title, String description, Integer foodQuantity, LocalDateTime foodExpirationDate, LocalDateTime foodManufacturingDate, PostStatus postStatus) {
         this.title = title;
         this.description = description;
         this.foodQuantity = foodQuantity;
-        this.foodPurchaseDate = foodPurchaseDate;
-        this.foodCookingDate = foodCookingDate;
         this.foodExpirationDate = foodExpirationDate;
-        this.foodBestBeforeDate = foodBestBeforeDate;
-        this.postStatus = PostStatus.SHARING;
+        this.foodManufacturingDate = foodManufacturingDate;
+        this.postStatus = postStatus;
     }
 
 }
