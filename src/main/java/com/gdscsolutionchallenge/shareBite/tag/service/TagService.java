@@ -68,4 +68,8 @@ public class TagService {
         return tagRepository.findById(tagId).orElseThrow(() -> new ResourceNotFoundException(ErrorCode.NOT_FOUND_TAG));
     }
 
+    public Tag verifyTag(String tagName) {
+        return tagRepository.findByName(tagName).orElseThrow(() -> new ResourceNotFoundException(ErrorCode.NOT_FOUND_TAG));
+    }
+
 }
