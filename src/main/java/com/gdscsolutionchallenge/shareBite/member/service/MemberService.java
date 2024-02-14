@@ -2,6 +2,7 @@ package com.gdscsolutionchallenge.shareBite.member.service;
 
 import com.gdscsolutionchallenge.shareBite.exception.exceptions.ConflictException;
 import com.gdscsolutionchallenge.shareBite.exception.code.ErrorCode;
+import com.gdscsolutionchallenge.shareBite.exception.exceptions.ResourceNotFoundException;
 import com.gdscsolutionchallenge.shareBite.gcs.service.GcsService;
 import com.gdscsolutionchallenge.shareBite.gcs.state.ImageType;
 import com.gdscsolutionchallenge.shareBite.member.dto.CreateMemberDto;
@@ -32,11 +33,11 @@ public class MemberService {
         String memberEmail = createMemberDto.getEmail();
 
         if(memberRepository.existsByName(memberName)) {
-            throw new ConflictException(ErrorCode.MEMBER_CONFLICT, memberName);
+            throw new ConflictException(ErrorCode.CONFLICT_MEMBER, memberName);
         }
 
         if(memberRepository.existsByEmail(memberEmail)) {
-            throw new ConflictException(ErrorCode.MEMBER_CONFLICT, memberEmail);
+            throw new ConflictException(ErrorCode.CONFLICT_MEMBER, memberEmail);
         }
 
         Member member = Member.builder()
@@ -60,11 +61,11 @@ public class MemberService {
         String memberEmail = updateMemberDto.getEmail();
 
         if((!member.getName().equals(memberName)) && memberRepository.existsByName(memberName)) {
-            throw new ConflictException(ErrorCode.MEMBER_CONFLICT, memberName);
+            throw new ConflictException(ErrorCode.CONFLICT_MEMBER, memberName);
         }
 
         if((!member.getEmail().equals(memberEmail)) && memberRepository.existsByEmail(memberEmail)) {
-            throw new ConflictException(ErrorCode.MEMBER_CONFLICT, memberEmail);
+            throw new ConflictException(ErrorCode.CONFLICT_MEMBER, memberEmail);
         }
 
         member.update(passwordEncoder.encode(updateMemberDto.getPassword()),
@@ -102,7 +103,7 @@ public class MemberService {
     }
 
     public Member verifyMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException());
+        return memberRepository.findById(memberId).orElseThrow(() -> new ResourceNotFoundException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
 }
