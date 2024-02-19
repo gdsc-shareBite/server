@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -43,9 +42,9 @@ public class JwtFilter extends OncePerRequestFilter {
                 Authentication authentication = tokenProvider.getAuthentication(accessToken);
 
                 if(authentication != null) {
-                    String memberName = authentication.getName();
+                    String memberId = authentication.getName();
 
-                    if(redisService.getAccessToken(memberName).isPresent()) {
+                    if(redisService.getAccessToken(memberId).isPresent()) {
                         logger.info("black-list로 등록된 토큰입니다.");
 
                     } else {
