@@ -9,7 +9,10 @@ public enum ErrorCode {
     NOT_FOUND_ROLE("Not found role"),
     NOT_FOUND_STORE("Not found store"),
     NOT_FOUND_TAG("Not found tag"),
+    NOT_FOUND_POST("Not found post"),
     NOT_FOUND_POST_STATUS("Not found post status"),
+    NOT_FOUND_ORDER("Not found order"),
+    NOT_FOUND_ORDER_STATUS("Not found order status"),
 
     // Conflict error
     CONFLICT_MEMBER("Conflict member"),
