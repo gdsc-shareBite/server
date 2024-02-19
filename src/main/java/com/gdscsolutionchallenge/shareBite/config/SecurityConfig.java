@@ -1,8 +1,6 @@
 package com.gdscsolutionchallenge.shareBite.config;
 
 import com.gdscsolutionchallenge.shareBite.config.jwt.JwtConfig;
-import com.google.api.services.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +37,6 @@ public class SecurityConfig {
                     .authorizeRequests()
                     .antMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/v1/members", "/api/v1/auth/login").permitAll()
-                    .antMatchers("/api/v1/members/black-list").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated()
                 .and()
                     .apply(jwtConfig)
