@@ -11,15 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateMemberDto {
     private String password;
-
     private String name;
-
     private String email;
-
-    private String profileImageUrl;
-
     private String country;
-
     private String address;
 
 }

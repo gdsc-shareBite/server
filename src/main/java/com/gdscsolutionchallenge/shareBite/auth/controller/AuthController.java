@@ -48,20 +48,17 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader(AUTHORIZATION_HEADER) String bearerToken,
-                                    @RequestHeader(REFRESH_TOKEN_HEADER) String refreshToken) {
-        String accessToken =  tokenProvider.extractAccessToken(bearerToken) ;
-
-        TokensDto tokensDto = new TokensDto(accessToken, refreshToken);
-        authService.logout(tokensDto);
+    public ResponseEntity<?> logout(@RequestHeader(AUTHORIZATION_HEADER) String bearerToken) {
+        String accessToken =  tokenProvider.extractAccessToken(bearerToken);
+        authService.logout(accessToken);
 
         return new ResponseEntity<> (HttpStatus.OK);
     }
 
-//    @PostMapping({"/black-list/{memberName}"})
-//    public ResponseEntity<?> setBlackList(@PathVariable String memberName) {
-//        authService.setBlackList(memberName);
-//
-//        return new ResponseEntity<> (HttpStatus.OK);
-//    }
+    @PostMapping({"/black-list/{memberId}"})
+    public ResponseEntity<?> setBlackList(@PathVariable Long memberId) {
+        authService.setBlackList(memberId);
+
+        return new ResponseEntity<> (HttpStatus.OK);
+    }
 }

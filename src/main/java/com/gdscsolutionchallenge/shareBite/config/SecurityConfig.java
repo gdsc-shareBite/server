@@ -37,7 +37,6 @@ public class SecurityConfig {
                     .authorizeRequests()
                     .antMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/h2-console/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/v1/members", "/api/v1/auth/login").permitAll()
-                    .antMatchers("/api/v1/members/black-list").hasAuthority("ROLE_ADMIN")
                     .anyRequest().authenticated()
                 .and()
                     .apply(jwtConfig)

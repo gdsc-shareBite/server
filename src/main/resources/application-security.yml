@@ -7,9 +7,4 @@ jwt:
 redis:
   host: ${REDIS_HOST}
   port: ${REDIS_PORT}
-  password: ${REDIS_PW}
-
-url:
-  authentication:
-    success: ${AUTHENTICATION_SUCCESS_URL}
-    failure: ${AUTHENTICATION_FAILURE_URL}
+  password: ${REDIS_PASSWORD}

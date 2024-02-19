@@ -16,8 +16,6 @@ public class CreateMemberDto {
 
     private String email;
 
-    private String profileImageUrl;
-
     private String country;
 
     private String address;
