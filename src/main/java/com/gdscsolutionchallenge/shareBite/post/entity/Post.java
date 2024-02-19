@@ -5,10 +5,7 @@ import com.gdscsolutionchallenge.shareBite.order.entity.Order;
 import com.gdscsolutionchallenge.shareBite.post.state.PostStatus;
 import com.gdscsolutionchallenge.shareBite.postTag.entity.PostTag;
 import com.gdscsolutionchallenge.shareBite.store.entity.Store;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,21 +22,27 @@ public class Post extends ModificationInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
+    @Setter
     @Column
     private String title;
 
+    @Setter
     @Column
     private String description;
 
+    @Setter
     @Column
     private Integer foodQuantity;
 
+    @Setter
     @Column
     private LocalDateTime foodExpirationDate;
 
+    @Setter
     @Column
     private LocalDateTime foodManufacturingDate;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     private PostStatus postStatus = PostStatus.SHARING;
 
@@ -72,12 +75,12 @@ public class Post extends ModificationInfo {
     }
 
     public void update(String title, String description, Integer foodQuantity, LocalDateTime foodExpirationDate, LocalDateTime foodManufacturingDate, PostStatus postStatus) {
-        this.title = title;
-        this.description = description;
-        this.foodQuantity = foodQuantity;
-        this.foodExpirationDate = foodExpirationDate;
-        this.foodManufacturingDate = foodManufacturingDate;
-        this.postStatus = postStatus;
+        setTitle(title);
+        setDescription(description);
+        setFoodQuantity(foodQuantity);
+        setFoodExpirationDate(foodExpirationDate);
+        setFoodManufacturingDate(foodManufacturingDate);
+        setPostStatus(postStatus);
     }
 
 }
