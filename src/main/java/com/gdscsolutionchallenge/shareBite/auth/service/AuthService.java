@@ -88,11 +88,11 @@ public class AuthService {
     }
 
     private Member verifyMember(Optional<Member> optionalMember) {
-        return optionalMember.orElseThrow(() -> new ResourceNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        return optionalMember.orElseThrow(() -> new ResourceNotFoundException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
     private Member verifyMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new ResourceNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+        return memberRepository.findById(memberId).orElseThrow(() -> new ResourceNotFoundException(ErrorCode.NOT_FOUND_MEMBER));
     }
 
 }
