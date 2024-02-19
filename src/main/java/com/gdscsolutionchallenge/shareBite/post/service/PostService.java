@@ -1,6 +1,8 @@
 package com.gdscsolutionchallenge.shareBite.post.service;
 
 
+import com.gdscsolutionchallenge.shareBite.exception.code.ErrorCode;
+import com.gdscsolutionchallenge.shareBite.exception.exceptions.ResourceNotFoundException;
 import com.gdscsolutionchallenge.shareBite.gcs.service.GcsService;
 import com.gdscsolutionchallenge.shareBite.gcs.state.ImageType;
 import com.gdscsolutionchallenge.shareBite.post.dto.CreatePostDto;
@@ -24,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -67,7 +68,7 @@ public class PostService {
 
     @Transactional
     public void updatePost(Long postId, UpdatePostDto updatePostDto, List<MultipartFile> imageFiles) throws IOException {
-        Post post = verifyPost(postRepository.findById(postId));
+        Post post = verifyPost(postId);
 
         postTagRepository.deleteByPost_PostId(postId);
 
@@ -91,7 +92,7 @@ public class PostService {
     }
 
     public FindPostResponseDto findPost(Long postId) {
-        Post post = verifyPost(postRepository.findById(postId));
+        Post post = verifyPost(postId);
 
         List<String> tags = post.getPostTags().stream().map(postTag ->
             postTag.getTag().getName()).toList();
@@ -135,8 +136,7 @@ public class PostService {
                             .imageUrls(imageUrls)
                             .tags(tags)
                             .build();
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
         return new FindAllPostResponseDto(findPostResponseDtoList,
                 postPage.getTotalPages(),
@@ -149,7 +149,7 @@ public class PostService {
 //        postRepository.delete(post);
 //    }
 
-    private Post verifyPost(Optional<Post> optionalPost) {
-        return optionalPost.orElseThrow(() -> new RuntimeException());
+    public Post verifyPost(Long postId) {
+        return postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException(ErrorCode.NOT_FOUND_POST));
     }
 }
