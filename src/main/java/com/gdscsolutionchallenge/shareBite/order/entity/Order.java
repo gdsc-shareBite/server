@@ -40,4 +40,8 @@ public class Order extends ModificationInfo {
         this.post = post;
         post.getOrders().add(this);
     }
+
+    public void update(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }

@@ -10,10 +10,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -26,9 +26,22 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getRequestURI().equals(reissueUrl)) {
-            String refreshToken = request.getHeader("X-Refresh-Token");
+        String accessToken = null;
+        String refreshToken = null;
 
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("accessToken")) {
+                    accessToken = cookie.getValue();
+                }
+                if (cookie.getName().equals("refreshToken")) {
+                    refreshToken = cookie.getValue();
+                }
+            }
+        }
+
+        if (request.getRequestURI().equals(reissueUrl)) {
             if (refreshToken != null && tokenProvider.validateToken(refreshToken)) {
                 Authentication authentication = tokenProvider.getAuthentication(refreshToken);
 
@@ -37,20 +50,16 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
             }
         } else {
-            String accessToken = tokenProvider.extractAccessToken(request.getHeader("Authorization"));
-
-            if(accessToken != null && tokenProvider.validateToken(accessToken)) {
+            if (accessToken != null && tokenProvider.validateToken(accessToken)) {
                 Authentication authentication = tokenProvider.getAuthentication(accessToken);
 
-                if(authentication != null) {
-                    String memberName = authentication.getName();
+                if (authentication != null) {
+                    String memberId = authentication.getName();
 
-                    if(redisService.getAccessToken(memberName).isPresent()) {
+                    if (redisService.getAccessToken(memberId).isPresent()) {
                         logger.info("black-list로 등록된 토큰입니다.");
-
                     } else {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
-
                     }
                 }
             }
@@ -58,5 +67,4 @@ public class JwtFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
 }

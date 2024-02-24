@@ -20,21 +20,23 @@ public class Member extends ModificationInfo {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
+    @Setter
     @Column
     private String password;
 
+    @Setter
     @Column
     private String name;
 
+    @Setter
     @Column
     private String email;
 
-    @Column
-    private String profileImageUrl;
-
+    @Setter
     @Column
     private String country;
 
+    @Setter
     @Column
     private String address;
 
@@ -56,6 +58,7 @@ public class Member extends ModificationInfo {
     @OneToMany(mappedBy = "member", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column
     private Role role;
@@ -65,22 +68,24 @@ public class Member extends ModificationInfo {
     }
 
     @Builder
-    public Member(String password, String name, String email, String profileImageUrl, String country, String address, Role role) {
+    public Member(String password, String name, String email, String country, String address, Role role) {
         this.password = password;
         this.name = name;
         this.email = email;
-        this.profileImageUrl = profileImageUrl;
         this.country = country;
         this.address = address;
         this.role = role;
     }
 
-    public void update(String password, String name, String email, String profileImageUrl, String country, String address) {
-        this.password = password;
-        this.name = name;
-        this.email = email;
-        this.profileImageUrl = profileImageUrl;
-        this.country = country;
-        this.address = address;
+    public void update(String password, String name, String email, String country, String address) {
+        setPassword(password);
+        setName(name);
+        setEmail(email);
+        setCountry(country);
+        setAddress(address);
+    }
+
+    public void update(Role role) {
+        setRole(role);
     }
 }

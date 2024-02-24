@@ -12,13 +12,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,24 +24,21 @@ public class TokenProvider {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
+    @Getter
     @Value("${jwt.atk_expiration}")
-    private long ATK_EXPIRATION;
+    public long ATK_EXPIRATION;
 
     @Getter
     @Value("${jwt.rtk_expiration}")
-    private long RTK_EXPIRATION;
-
-    private String AUTHORIZATION_HEADER = "Authorization";
-    private String BEARER_PREFIX = "Bearer";
-    private String AUTHORITY_PREFIX = "ROLE_";
+    public long RTK_EXPIRATION;
 
     @PostConstruct
     public void encodeBase64SecretKey() {
         SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createAccessToken(String username, String role) {
-        Claims claims = Jwts.claims().setSubject(username);
+    public String createAccessToken(String memberId, String role) {
+        Claims claims = Jwts.claims().setSubject(memberId);
         claims.put("role", role);
 
         Date now = new Date();
@@ -58,8 +52,8 @@ public class TokenProvider {
                 .compact();
     }
 
-    public String createRefreshToken(String username) {
-        Claims claims = Jwts.claims().setSubject(username);
+    public String createRefreshToken(String memberId) {
+        Claims claims = Jwts.claims().setSubject(memberId);
         Date now = new Date();
         Date expiration = new Date(now.getTime() + RTK_EXPIRATION);
 
@@ -73,11 +67,12 @@ public class TokenProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = getClaim(token);
-        String username = claims.getSubject();
+        String memberId = claims.getSubject();
         String role = claims.get("role", String.class);
+        String AUTHORITY_PREFIX = "ROLE_";
         List<GrantedAuthority> authorities =  Collections.singletonList(new SimpleGrantedAuthority(AUTHORITY_PREFIX + role));
 
-        UserDetails userDetails = new User(username, "", authorities);
+        UserDetails userDetails = new User(memberId, "", authorities);
 
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
@@ -123,6 +118,8 @@ public class TokenProvider {
     }
 
     public String extractAccessToken(String bearerToken) {
+        String BEARER_PREFIX = "Bearer";
+
         if (bearerToken != null && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(BEARER_PREFIX.length());
         }
