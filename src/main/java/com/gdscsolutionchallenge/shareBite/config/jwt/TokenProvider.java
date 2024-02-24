@@ -24,12 +24,13 @@ public class TokenProvider {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
+    @Getter
     @Value("${jwt.atk_expiration}")
-    private long ATK_EXPIRATION;
+    public long ATK_EXPIRATION;
 
     @Getter
     @Value("${jwt.rtk_expiration}")
-    private long RTK_EXPIRATION;
+    public long RTK_EXPIRATION;
 
     @PostConstruct
     public void encodeBase64SecretKey() {
